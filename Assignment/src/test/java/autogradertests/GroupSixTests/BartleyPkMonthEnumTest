@@ -1,0 +1,56 @@
+package edu.coolschool.utilities.dateutils;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class MonthsEnumTest {
+
+    @Test
+    void testGetMonthNumber() {
+        assertEquals(1, MonthsEnum.JANUARY.getMonthNumber());
+        assertEquals(6, MonthsEnum.JUNE.getMonthNumber());
+        assertEquals(12, MonthsEnum.DECEMBER.getMonthNumber());
+    }
+
+    @Test
+    void testFromMonthNumber_valid() {
+        assertEquals(MonthsEnum.JANUARY, MonthsEnum.fromMonthNumber(1));
+        assertEquals(MonthsEnum.MARCH, MonthsEnum.fromMonthNumber(3));
+        assertEquals(MonthsEnum.DECEMBER, MonthsEnum.fromMonthNumber(12));
+    }
+
+    @Test
+    void testFromMonthNumber_invalid() {
+        Exception ex = assertThrows(IllegalArgumentException.class, () ->
+                MonthsEnum.fromMonthNumber(0)
+        );
+        assertTrue(ex.getMessage().contains("Invalid month number"));
+
+        assertThrows(IllegalArgumentException.class, () ->
+                MonthsEnum.fromMonthNumber(13)
+        );
+    }
+
+    @Test
+    void testFromString_valid() {
+        assertEquals(MonthsEnum.JANUARY, MonthsEnum.fromString("JANUARY"));
+        assertEquals(MonthsEnum.FEBRUARY, MonthsEnum.fromString("february"));
+        assertEquals(MonthsEnum.OCTOBER, MonthsEnum.fromString("OcToBeR"));
+    }
+
+    @Test
+    void testFromString_invalid() {
+        Exception ex = assertThrows(IllegalArgumentException.class, () ->
+                MonthsEnum.fromString("NotAMonth")
+        );
+        assertTrue(ex.getMessage().contains("Invalid month name"));
+    }
+
+    @Test
+    void testToString_format() {
+        assertEquals("January", MonthsEnum.JANUARY.toString());
+        assertEquals("April", MonthsEnum.APRIL.toString());
+        assertEquals("December", MonthsEnum.DECEMBER.toString());
+    }
+}
